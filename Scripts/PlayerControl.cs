@@ -24,4 +24,22 @@ public class PlayerControl : MonoBehaviour {
     void MoveForward() {
        
     }
+　　　Transform GetClosestWall (Transform[] walls)
+        {
+            Transform closestTarget = null;
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 currentPosition = transform.position;
+            foreach(Transform potentialTarget in walls)
+            {
+                Vector3 directionToTarget = potentialTarget.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if(dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    closestTarget = potentialTarget;
+                }
+            }
+            return closestTarget;
+        }
+
 }
