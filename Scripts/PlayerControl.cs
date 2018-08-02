@@ -6,7 +6,8 @@ public class PlayerControl : MonoBehaviour {
 
     public float upPower = 5f;
     public Transform[] wallClones;
-    List<Transform> wallTest = new List<Transform>();
+    public Transform[] testWall;
+    public List<Transform> wallTest = new List<Transform>();
 
     private Rigidbody rb;
 
@@ -18,17 +19,37 @@ public class PlayerControl : MonoBehaviour {
 
     void Update() {
         GameObject[] allWalls = GameObject.FindGameObjectsWithTag("Wall");
+        WallControl[] wallClones = GameObject.FindObjectsOfType<WallControl>();
+
+        foreach (WallControl closestWall in wallClones) {
+            Vector3 directionToTarget = closestWall.transform.position - this.transform.position;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            float closestDistanceSqr2 = Mathf.Infinity;
+            WallControl closestTarget2 = null;
+            if (dSqrToTarget < closestDistanceSqr2) {
+                closestDistanceSqr2 = dSqrToTarget;
+                closestTarget2 = closestWall;
+            }
+            Debug.Log(closestWall.transform.position);
+        }
+
+
+        //Debug.Log(allWalls.Length);
         for (int i = 0; i < allWalls.Length; i++) {
-            //Debug.Log(allWalls[i].transform.position);
             wallTest.Add(allWalls[i].transform);
-            //wallClones[i] = allWalls[i].transform;
-            //GetClosestWall(wallTest);
+        }
+        for (int i = 0; i < testWall.Length; i++) {
+            GetClosestWall(testWall);
+            // This shows the closest wall
+            Debug.Log("Position is " + GetClosestWall(testWall).position);
         }
     }
 
     // Update is called once per frame
     void FixedUpdate() {
-        
+        if(transform.position.y < 0) {
+            rb.velocity = new Vector3(0, upPower, 0);
+        }
         if (Input.GetKey(KeyCode.UpArrow)) {
             rb.velocity = new Vector3(0, upPower, 0);
         }

@@ -12,6 +12,7 @@ public class Spawner : MonoBehaviour {
 	public float xSize;
 	public float ySize;
     public GameManager gameManager;
+    public PlayerControl playerControl;
 
     private float timeBtwSpawn;
     
@@ -22,7 +23,8 @@ public class Spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	if(gameManager.levelStared){
+    Debug.Log(playerControl.wallTest);
+    if (gameManager.levelStared){
 			if(timeBtwSpawn <= 0) {
 				Spawn();
 				timeBtwSpawn = startTimeBtwSpawn;
@@ -44,6 +46,8 @@ public class Spawner : MonoBehaviour {
         int spawnPointX = 9;
         int spawnPointY = Random.Range(-4, 4);
         Vector3 spawnPosition = new Vector3(spawnPointX, spawnPointY, 0);
-        Instantiate(wall, spawnPosition, Quaternion.identity, this.transform);
+        GameObject wallClone = Instantiate(wall, spawnPosition, Quaternion.identity, this.transform);
+        playerControl.wallTest.Add(wallClone.transform);
+
     }
 }

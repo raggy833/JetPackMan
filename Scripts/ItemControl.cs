@@ -16,4 +16,10 @@ public class ItemControl : MonoBehaviour {
         transform.Translate(Vector3.left * speed * Time.deltaTime);
 
 	}
+    private void OnTriggerEnter(Collider other) {
+        if(other.tag == "Player") {
+            Debug.Log("power up");
+            Destroy(gameObject);
+        }
+    }
 }
