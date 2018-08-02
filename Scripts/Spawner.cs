@@ -11,10 +11,10 @@ public class Spawner : MonoBehaviour {
 	
 	public float xSize;
 	public float ySize;
+    public GameManager gameManager;
 
     private float timeBtwSpawn;
     
-
 	// Use this for initialization
 	void Start () {
 		timeBtwSpawn = startTimeBtwSpawn;
@@ -22,14 +22,13 @@ public class Spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	if(GameManager.levelStarted){
+	if(gameManager.levelStared){
 			if(timeBtwSpawn <= 0) {
 				Spawn();
 				timeBtwSpawn = startTimeBtwSpawn;
 				if (startTimeBtwSpawn > minTime) {
 					startTimeBtwSpawn -= decreaseTime;
 				}
-
 			} else {
 				timeBtwSpawn -= Time.deltaTime;
 			}
@@ -38,13 +37,13 @@ public class Spawner : MonoBehaviour {
 	
 	void OnDrawGizmos(){
 		Gizmos.color = Color.green;
-		Gizmos.DrawCube(transform.position, new Vector(xSize, ySize, 1);
+        Gizmos.DrawCube(transform.position, new Vector3(xSize, ySize, 1));
 	}
 
     void Spawn() {
-        int spawnPointX = Random.Range(-1, 1);
-        int spawnPointY = Random.Range(-100, 100);
+        int spawnPointX = 9;
+        int spawnPointY = Random.Range(-4, 4);
         Vector3 spawnPosition = new Vector3(spawnPointX, spawnPointY, 0);
-        Instantiate(wall, spawnPosition, Quaternion.identity);
+        Instantiate(wall, spawnPosition, Quaternion.identity, this.transform);
     }
 }
